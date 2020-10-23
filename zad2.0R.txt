@@ -1,3 +1,6 @@
+library(tidyverse)
+library(readr)
+library(sf)
 # загрузим табицу с данными
 dafr = read_csv2("city_trees2.csv")
 # сделаем ее массивом и выведем
@@ -70,22 +73,13 @@ names(table) = c("E", "N", "Quadr")
 table = na.exclude(table)
 #----------
 table = table %>% mutate("Easting_BC" = case_when(
-  quadr == "TF" ~ E + 600000, 
-))
-table = table %>% mutate("Northing_BC" = case_when(
-  quadr == "TF" ~ N + 300000, 
-))
-table = table %>% mutate("Easting_BC" = case_when(
-  quadr == "TG" ~ E + 700000, 
-))
-table = table %>% mutate("Northing_BC" = case_when(
-  quadr == "TG" ~ N + 300000, 
-))
-table = table %>% mutate("Easting_BC" = case_when(
+  quadr == "TF" ~ E + 600000,
+  quadr == "TG" ~ E + 700000,
   quadr == "TL" ~ E + 600000, 
-))
-table = table %>% mutate("Northing_BC" = case_when(
-  quadr == "TL" ~ N + 200000, 
+)) %>% mutate("Northing_BC" = case_when(
+  quadr == "TF" ~ N + 300000,
+  quadr == "TG" ~ N + 300000,
+  quadr == "TL" ~ N + 200000,
 ))
 table = na.exclude(table)
 #-----------
